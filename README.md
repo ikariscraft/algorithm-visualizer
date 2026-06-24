@@ -3,7 +3,7 @@
 > **Pathfinding & sorting algorithms, animated in real time.**  
 > No frameworks. No backend. Pure `<canvas>`, vanilla JS, and an obsession with smooth animation.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-tamarizmich.github.io-blueviolet?style=flat-square)](https://tamarizmich.github.io)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-blueviolet?style=flat-square)](https://extraordinary-paletas-3dc94a.netlify.app/)
 [![Stack](https://img.shields.io/badge/Stack-HTML%20%2F%20CSS%20%2F%20JS-orange?style=flat-square)](#stack)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
 

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Visualizer ✦</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-mode="single">
+  <div class="aurora" aria-hidden="true">
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+  </div>
+
+  <header class="topbar glass">
+    <h1>algorithm visualizer <span class="sparkle">✦</span></h1>
+    <nav class="modes">
+      <button class="mode is-active" data-mode="single">single</button>
+      <button class="mode" data-mode="race">race</button>
+      <button class="mode" data-mode="sorting">sorting</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside class="panel glass">
+
+      <!-- Pathfinding controls -->
+      <label class="field" data-show="path">
+        <span id="algo-a-label">algorithm</span>
+        <select id="algo-a">
+          <option value="bfs">BFS — Breadth-First</option>
+          <option value="dfs">DFS — Depth-First</option>
+          <option value="dijkstra">Dijkstra</option>
+          <option value="astar" selected>A* (Manhattan)</option>
+        </select>
+      </label>
+
+      <label class="field" data-show="race">
+        <span>algorithm B (right)</span>
+        <select id="algo-b">
+          <option value="bfs" selected>BFS — Breadth-First</option>
+          <option value="dfs">DFS — Depth-First</option>
+          <option value="dijkstra">Dijkstra</option>
+          <option value="astar">A* (Manhattan)</option>
+        </select>
+      </label>
+
+      <!-- Sorting controls -->
+      <label class="field" data-show="sort">
+        <span>algorithm</span>
+        <select id="algo-sort">
+          <option value="bubble">Bubble Sort</option>
+          <option value="quick" selected>Quicksort</option>
+          <option value="merge">Mergesort</option>
+        </select>
+      </label>
+
+      <label class="field" data-show="sort">
+        <span>array size</span>
+        <input type="range" id="size" min="10" max="120" value="50">
+      </label>
+
+      <!-- Shared -->
+      <label class="field">
+        <span>speed</span>
+        <input type="range" id="speed" min="1" max="200" value="20">
+      </label>
+
+      <div class="actions">
+        <button id="run" class="btn btn--primary">▶ run</button>
+        <button id="reset" class="btn">reset</button>
+        <button id="clear-walls" class="btn" data-show="path">clear walls</button>
+        <button id="shuffle" class="btn" data-show="sort">shuffle</button>
+      </div>
+
+      <div class="info" data-show="single">
+        <div class="info__name" id="info-name">—</div>
+        <dl class="info__grid">
+          <dt>Big-O</dt><dd id="info-bigo">—</dd>
+          <dt>optimal</dt><dd id="info-optimal">—</dd>
+          <dt>heuristic</dt><dd id="info-heuristic">—</dd>
+        </dl>
+        <p class="info__note" id="info-note">—</p>
+      </div>
+
+      <div class="info" data-show="sort">
+        <div class="info__name" id="sort-info-name">—</div>
+        <dl class="info__grid">
+          <dt>Big-O</dt><dd id="sort-info-bigo">—</dd>
+          <dt>best</dt><dd id="sort-info-best">—</dd>
+          <dt>stable</dt><dd id="sort-info-stable">—</dd>
+          <dt>in-place</dt><dd id="sort-info-inplace">—</dd>
+        </dl>
+        <p class="info__note" id="sort-info-note">—</p>
+      </div>
+
+      <div class="stats" data-show="single">
+        <div class="stat">
+          <span class="stat__num" id="stat-a-visited">0</span>
+          <span class="stat__lbl">visited</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" id="stat-a-path">—</span>
+          <span class="stat__lbl">path</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" id="stat-a-ms">—</span>
+          <span class="stat__lbl">time</span>
+        </div>
+      </div>
+
+      <div class="stats" data-show="sort">
+        <div class="stat">
+          <span class="stat__num" id="stat-sort-comps">0</span>
+          <span class="stat__lbl">compares</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" id="stat-sort-swaps">0</span>
+          <span class="stat__lbl">swaps</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" id="stat-sort-ms">—</span>
+          <span class="stat__lbl">time</span>
+        </div>
+      </div>
+
+      <div class="hint" data-show="path">
+        click + drag to draw walls<br>
+        shift + click sets the start<br>
+        alt + click sets the goal<br>
+        <em data-show="race">edits sync to both grids</em>
+      </div>
+
+      <div class="hint" data-show="sort">
+        adjust array size to make the<br>
+        sort harder or easier<br>
+        higher speed = more steps/frame
+      </div>
+    </aside>
+
+    <div class="stages">
+      <section class="stage glass">
+        <div class="stage__head">
+          <span class="stage__label" id="label-a">A*</span>
+          <div class="stage__stats" data-show="race">
+            <span><b id="race-a-visited">0</b> visited</span>
+            <span><b id="race-a-path">—</b> path</span>
+            <span><b id="race-a-ms">—</b></span>
+          </div>
+        </div>
+        <canvas id="canvas-a"></canvas>
+      </section>
+
+      <section class="stage glass" data-show="race">
+        <div class="stage__head">
+          <span class="stage__label" id="label-b">BFS</span>
+          <div class="stage__stats">
+            <span><b id="race-b-visited">0</b> visited</span>
+            <span><b id="race-b-path">—</b> path</span>
+            <span><b id="race-b-ms">—</b></span>
+          </div>
+        </div>
+        <canvas id="canvas-b"></canvas>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

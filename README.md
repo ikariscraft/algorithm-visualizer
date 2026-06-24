@@ -9,6 +9,14 @@
 
 ---
 
+## Preview
+
+![Single mode](assets/single.png)
+![Race mode](assets/race.png)
+![Sorting mode](assets/sorting.png)
+
+---
+
 ## What it does
 
 A browser-based playground with two modes:
